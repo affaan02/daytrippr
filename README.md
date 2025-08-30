@@ -27,3 +27,5 @@ python app.py
 ## API
 
 `GET /api/search?origin=SFO&destination=DTW&trip_date=2025-09-20&morning_arrival=true&evening_departure=true&max_price=220`
+
+Deployed from VS Code on Sat Aug 30 15:45:49 PDT 2025
