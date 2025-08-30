@@ -1,49 +1,68 @@
 {% extends "base.html" %}
 {% block content %}
+  <!-- hero -->
+  <section class="mb-8">
+    <h1 class="text-4xl font-semibold tracking-tight mb-3">
+      Find a <span class="bg-gradient-to-r from-indigo-600 to-cyan-500 bg-clip-text text-transparent">same-day trip</span>
+    </h1>
+    <p class="text-slate-600 max-w-2xl">
+      Morning arrival, evening return — in one clean search.
+    </p>
+  </section>
 
-<h1 class="text-3xl font-bold mb-4">
-  Find a <span class="text-indigo-600">same-day trip</span>
-</h1>
-<p class="mb-6 text-slate-600">
-  Morning arrival, evening return — in one clean search.
-</p>
+  <!-- form card -->
+  <form action="{{ url_for('search_page') }}" method="get"
+        class="bg-white/90 backdrop-blur rounded-2xl shadow border border-slate-100 p-5 md:p-6 grid grid-cols-1 md:grid-cols-6 gap-4">
+    <div class="md:col-span-2">
+      <label class="block text-xs font-medium text-slate-600 mb-1">Origin (IATA)</label>
+      <input name="origin" required placeholder="SFO"
+             value="{{ request.args.get('origin','SFO') or 'SFO' }}"
+             class="w-full rounded-xl border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2">
+    </div>
 
-<form method="get" action="{{ url_for('results') }}" class="grid gap-4 md:grid-cols-2 lg:grid-cols-4 bg-white p-6 rounded-2xl shadow-md">
-  <div>
-    <label class="block text-sm font-medium">Origin (IATA)</label>
-    <input type="text" name="origin" placeholder="SFO" class="mt-1 w-full border rounded-md p-2" required>
-  </div>
-  <div>
-    <label class="block text-sm font-medium">Destination (IATA)</label>
-    <input type="text" name="destination" placeholder="DTW" class="mt-1 w-full border rounded-md p-2">
-  </div>
-  <div>
-    <label class="block text-sm font-medium">Trip date</label>
-    <input type="date" name="date" class="mt-1 w-full border rounded-md p-2">
-  </div>
-  <div>
-    <label class="block text-sm font-medium">Max price (USD)</label>
-    <input type="number" name="max_price" placeholder="e.g. 220" class="mt-1 w-full border rounded-md p-2">
-  </div>
-  <div class="flex items-center gap-2 col-span-full">
-    <input type="checkbox" name="morning_arrival" checked>
-    <label>Morning arrival</label>
-    <input type="checkbox" name="evening_return" checked>
-    <label>Evening return</label>
-  </div>
-  <div class="col-span-full flex gap-3">
-    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md">
-      Search
-    </button>
-    <a href="{{ url_for('api_search') }}" class="px-4 py-2 rounded-md border border-slate-300 hover:bg-slate-50">
-      API example
-    </a>
-  </div>
-</form>
+    <div class="md:col-span-2">
+      <label class="block text-xs font-medium text-slate-600 mb-1">Destination (IATA)</label>
+      <input name="destination" required placeholder="DTW"
+             value="{{ request.args.get('destination','DTW') or 'DTW' }}"
+             class="w-full rounded-xl border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2">
+    </div>
 
-<p class="mt-6 text-sm text-slate-500">
-  Tip: Start with your usual routes (e.g., SFO ⇄ DTW). Data is mocked for now —
-  plug in a real API later without changing the UI.
-</p>
+    <div class="md:col-span-1">
+      <label class="block text-xs font-medium text-slate-600 mb-1">Trip date</label>
+      <input type="date" name="trip_date" required
+             value="{{ default_date }}"
+             class="w-full rounded-xl border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2">
+    </div>
 
+    <div class="md:col-span-1">
+      <label class="block text-xs font-medium text-slate-600 mb-1">Max price (USD)</label>
+      <input type="number" name="max_price" placeholder="e.g. 220"
+             class="w-full rounded-xl border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2">
+    </div>
+
+    <div class="md:col-span-6 grid grid-cols-2 gap-4">
+      <label class="flex items-center gap-2">
+        <input type="checkbox" name="morning_arrival" value="true" checked class="rounded">
+        <span class="text-sm">Morning arrival</span>
+      </label>
+      <label class="flex items-center gap-2">
+        <input type="checkbox" name="evening_departure" value="true" checked class="rounded">
+        <span class="text-sm">Evening return</span>
+      </label>
+    </div>
+
+    <div class="md:col-span-6 flex gap-3">
+      <button class="px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm">
+        Search
+      </button>
+      <a href="{{ url_for('api_search') }}?origin=SFO&destination=DTW&trip_date={{ default_date }}&morning_arrival=true&evening_departure=true"
+         class="px-4 py-2 rounded-xl bg-slate-100 text-slate-800 hover:bg-slate-200 border border-slate-200">
+        API example
+      </a>
+    </div>
+  </form>
+
+  <section class="mt-6 text-sm text-slate-600">
+    Tip: Start with your usual routes (e.g., SFO ↔ DTW). Data is mocked now — plug a real API later without changing the UI.
+  </section>
 {% endblock %}
