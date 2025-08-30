@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="mb-10">
+  <h1 class="text-3xl font-semibold tracking-tight mb-3">How it works</h1>
+  <p class="text-slate-600 max-w-3xl">Three steps. That’s it.</p>
+</section>
+
+<ol class="space-y-4 max-w-3xl">
+  <li class="bg-white rounded-2xl shadow p-5 border border-slate-100">
+    <h3 class="font-medium">1) Choose route + date</h3>
+    <p class="text-sm text-slate-600">Enter origin, destination, and pick a date. Defaults focus on major airports.</p>
+  </li>
+  <li class="bg-white rounded-2xl shadow p-5 border border-slate-100">
+    <h3 class="font-medium">2) We filter the noise</h3>
+    <p class="text-sm text-slate-600">We only surface itineraries with morning arrivals and evening returns.</p>
+  </li>
+  <li class="bg-white rounded-2xl shadow p-5 border border-slate-100">
+    <h3 class="font-medium">3) Book where you like</h3>
+    <p class="text-sm text-slate-600">Click through to Google Flights to use your cards, miles, and airline status.</p>
+  </li>
+</ol>
+{% endblock %}
