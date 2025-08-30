@@ -1,62 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="mb-6">
-    <h1 class="text-2xl font-semibold tracking-tight">Results</h1>
-    <p class="text-slate-600">
-      {{ params.origin }} → {{ params.destination }} on {{ params.trip_date }}
-      · Morning arrival: {{ 'yes' if params.morning_arrival else 'no' }}
-      · Evening return: {{ 'yes' if params.evening_departure else 'no' }}
-      {% if params.max_price %} · Max ${{ params.max_price }}{% endif %}
-    </p>
-  </div>
 
-  {% if count == 0 %}
-    <div class="p-6 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900">
-      No options matched your filters. Try a different date, loosen the price, or uncheck a constraint.
-    </div>
-  {% else %}
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      {% for r in results %}
-        <article class="bg-white rounded-2xl shadow p-5 border border-slate-100 hover:shadow-md transition">
-          <div class="flex items-center justify-between mb-4">
-            <div class="font-medium text-lg">{{ r.outbound.airline }}</div>
-            <div class="text-right">
-              <div class="text-3xl font-semibold">${{ r.price_total }}</div>
-              <div class="text-xs text-slate-500">{{ r.currency }}</div>
-            </div>
-          </div>
+<h1 class="text-2xl font-bold mb-4">Results</h1>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-            <div>
-              <div class="text-slate-500 text-xs mb-1">Outbound</div>
-              <div class="font-medium">{{ r.outbound.origin }} → {{ r.outbound.destination }}</div>
-              <div>{{ r.outbound.depart_time_local[11:16] }} → {{ r.outbound.arrive_time_local[11:16] }}</div>
-              <div class="text-slate-500 text-xs">{{ r.outbound.depart_time_local[:10] }}</div>
-              <div class="text-xs text-slate-500">Flight {{ r.outbound.flight_number }} · {{ r.outbound.duration_minutes }} min</div>
-            </div>
-            <div>
-              <div class="text-slate-500 text-xs mb-1">Return</div>
-              <div class="font-medium">{{ r.return.origin }} → {{ r.return.destination }}</div>
-              <div>{{ r.return.depart_time_local[11:16] }} → {{ r.return.arrive_time_local[11:16] }}</div>
-              <div class="text-slate-500 text-xs">{{ r.return.depart_time_local[:10] }}</div>
-              <div class="text-xs text-slate-500">Flight {{ r.return.flight_number }} · {{ r.return.duration_minutes }} min</div>
-            </div>
-          </div>
+{% if flights %}
+  <ul class="space-y-4">
+    {% for flight in flights %}
+    <li class="p-4 bg-white rounded-lg shadow">
+      <p class="font-semibold">{{ flight['origin'] }} → {{ flight['destination'] }}</p>
+      <p class="text-slate-600 text-sm">{{ flight['departure'] }} → {{ flight['return'] }}</p>
+      <p class="text-indigo-600 font-bold">${{ flight['price'] }}</p>
+      <a href="{{ flight['booking_url'] }}" target="_blank" class="text-sm text-indigo-600 hover:underline">Book on Google Flights</a>
+    </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="text-slate-600">No flights found. Try different filters.</p>
+{% endif %}
 
-          <div class="flex items-center gap-2 mt-3">
-            {% for tag in r.tags %}
-              <span class="text-xs rounded-full px-2 py-0.5 bg-indigo-50 text-indigo-700 border border-indigo-200">{{ tag }}</span>
-            {% endfor %}
-          </div>
-
-          <div class="mt-4 flex gap-3">
-            <a href="{{ r.deeplink }}" target="_blank"
-               class="px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm">Open in Google Flights</a>
-            <a href="{{ url_for('index') }}"
-               class="px-4 py-2 rounded-xl bg-slate-100 text-slate-800 hover:bg-slate-200 border border-slate-200">New search</a>
-          </div>
-        </article>
-      {% endfor %}
-    </div>
-  {% endif %}
 {% endblock %}

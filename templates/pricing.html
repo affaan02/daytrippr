@@ -1,37 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="mb-8">
-  <h1 class="text-3xl font-semibold tracking-tight mb-3">Pricing</h1>
-  <p class="text-slate-600">Start free. Upgrade when you need power features.</p>
-</section>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-  <div class="bg-white rounded-2xl shadow p-6 border border-slate-100">
-    <h3 class="text-lg font-semibold mb-1">Free</h3>
-    <ul class="text-sm space-y-2">
-      <li>• Unlimited searches</li>
-      <li>• Morning/Evening filters</li>
-      <li>• Google Flights deeplink</li>
-    </ul>
-  </div>
+<h1 class="text-3xl font-bold mb-4">Pricing</h1>
+<p class="text-slate-600 mb-4">
+  Daytrippr is free to use while in MVP mode.
+</p>
+<ul class="list-disc ml-6 text-slate-600">
+  <li>Basic search: Free</li>
+  <li>Future Pro features (alerts, saved searches): TBD</li>
+</ul>
 
-  <div class="bg-white rounded-2xl shadow p-6 border border-indigo-200">
-    <h3 class="text-lg font-semibold mb-1">Pro (coming)</h3>
-    <ul class="text-sm space-y-2">
-      <li>• Live fares & carriers</li>
-      <li>• Saved routes</li>
-      <li>• Price alerts</li>
-      <li>• Multi-origin hubs</li>
-    </ul>
-  </div>
-
-  <div class="bg-white rounded-2xl shadow p-6 border border-slate-100">
-    <h3 class="text-lg font-semibold mb-1">Team (coming)</h3>
-    <ul class="text-sm space-y-2">
-      <li>• Shared boards</li>
-      <li>• Export to sheets</li>
-      <li>• API access</li>
-    </ul>
-  </div>
-</div>
 {% endblock %}

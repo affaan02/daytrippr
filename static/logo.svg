@@ -1,16 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="160" height="36" viewBox="0 0 160 36" role="img" aria-label="Tripski">
+<!-- Daytrippr mark: location pin + paper plane, rounded card -->
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96">
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#4f46e5"/>
-      <stop offset="1" stop-color="#06b6d4"/>
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
     </linearGradient>
   </defs>
-  <g fill="url(#g)">
-    <text x="0" y="26" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" font-weight="700" font-size="24">Tripski</text>
-    <!-- Paper plane -->
-    <g transform="translate(108,3) scale(0.9)">
-      <path d="M1 12 L29 1 L20 30 L14 18 L1 12 Z" fill="url(#g)"/>
-      <path d="M1 12 L14 18 L20 30" fill="none" stroke="#0ea5e9" stroke-width="1.5" />
-    </g>
-  </g>
+  <!-- rounded square background -->
+  <rect x="4" y="4" width="88" height="88" rx="20" fill="url(#g)"/>
+  <!-- map pin -->
+  <path d="M48 26c-9.39 0-17 7.61-17 17 0 11.2 15.2 27.8 16 28.7a1.5 1.5 0 0 0 2.0 0C49.8 70.8 65 54.2 65 43c0-9.39-7.61-17-17-17z" fill="white" opacity="0.95"/>
+  <circle cx="48" cy="43" r="7" fill="#4F46E5"/>
+  <!-- tiny paper plane -->
+  <path d="M60 30l-22 9 10 3 3 10 9-22z" fill="white" opacity="0.95"/>
 </svg>

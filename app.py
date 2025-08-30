@@ -7,6 +7,15 @@ from config import AppConfig
 app = Flask(__name__, static_folder="static", template_folder="templates")
 app.config.from_object(AppConfig)
 
+# Make BRAND_* available in all templates
+@app.context_processor
+def inject_brand():
+    return dict(
+        BRAND_NAME=AppConfig.BRAND_NAME,
+        BRAND_TAGLINE=AppConfig.BRAND_TAGLINE,
+        BRAND_EMAIL=AppConfig.BRAND_EMAIL,
+    )
+
 @app.get("/")
 def index():
     today = date.today()
@@ -30,11 +39,12 @@ def api_search():
     results = search_daytrips(**params)
     return jsonify({"count": len(results), "results": results, "params": params})
 
+# Keep the same URL, just swap the asset inside static/
 @app.get("/logo.svg")
 def logo():
-    return send_from_directory("static", "logo.svg", mimetype="image/svg+xml")
+    return send_from_directory("static", "logo-daytrippr.svg", mimetype="image/svg+xml")
 
-# ---- extra pages ----
+# marketing pages
 @app.get("/about")
 def about():
     return render_template("about.html")
@@ -83,5 +93,5 @@ def _read_params():
     )
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", "5050"))  # defaults to 5050 now
+    port = int(os.getenv("PORT", "5050"))
     app.run(host="0.0.0.0", port=port, debug=True)

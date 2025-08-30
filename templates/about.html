@@ -1,26 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="mb-10">
-  <h1 class="text-3xl font-semibold tracking-tight mb-3">About Tripski</h1>
-  <p class="text-slate-600 max-w-3xl">
-    Tripski is a laser-focused day-trip finder: arrive in the <b>morning</b>, return in the <b>evening</b>.
-    It started as a student project to make quick getaways dead simple. This MVP uses mock data while we
-    integrate live providers.
-  </p>
-</section>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-  <div class="bg-white rounded-2xl shadow p-5 border border-slate-100">
-    <h3 class="font-medium mb-2">Fast</h3>
-    <p class="text-sm text-slate-600">Two fields, one date, done. We do the filtering for you.</p>
-  </div>
-  <div class="bg-white rounded-2xl shadow p-5 border border-slate-100">
-    <h3 class="font-medium mb-2">Opinionated</h3>
-    <p class="text-sm text-slate-600">Morning arrival + evening return. No clutter, just day-trip logic.</p>
-  </div>
-  <div class="bg-white rounded-2xl shadow p-5 border border-slate-100">
-    <h3 class="font-medium mb-2">Practical</h3>
-    <p class="text-sm text-slate-600">Opens in Google Flights to book with your miles and status.</p>
-  </div>
-</div>
+<h1 class="text-3xl font-bold mb-4">About Daytrippr</h1>
+<p class="text-slate-600 mb-4">
+  Daytrippr was built with one simple idea: travel doesn’t have to be expensive or complicated.
+  Sometimes the best adventures happen in a single day — morning flight out, evening flight back.
+</p>
+<p class="text-slate-600">
+  This MVP currently uses mocked flight data. In the future, we’ll integrate with real flight APIs so you can instantly book.
+</p>
+
 {% endblock %}

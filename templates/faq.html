@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="mb-8">
-  <h1 class="text-3xl font-semibold tracking-tight mb-3">FAQ</h1>
-</section>
 
-<div class="space-y-4 max-w-3xl">
-  <details class="bg-white rounded-2xl shadow p-5 border border-slate-100">
-    <summary class="font-medium cursor-pointer">Are these real prices?</summary>
-    <p class="text-sm text-slate-600 mt-2">In the MVP, prices are mock data. Click through to Google Flights to see live fares.</p>
-  </details>
-  <details class="bg-white rounded-2xl shadow p-5 border border-slate-100">
-    <summary class="font-medium cursor-pointer">Can I change the morning/evening windows?</summary>
-    <p class="text-sm text-slate-600 mt-2">Not yet. Backend uses 11:00 arrival cutoff and 17:00 return earliest.</p>
-  </details>
-  <details class="bg-white rounded-2xl shadow p-5 border border-slate-100">
-    <summary class="font-medium cursor-pointer">Which airports are supported?</summary>
-    <p class="text-sm text-slate-600 mt-2">Any IATA code works. We'll add grouped “home hubs” soon.</p>
-  </details>
+<h1 class="text-3xl font-bold mb-6">FAQ</h1>
+
+<div class="space-y-6">
+  <div>
+    <h2 class="font-semibold">Is this real flight data?</h2>
+    <p class="text-slate-600">Not yet — this MVP uses mocked data. The architecture is built to plug in real APIs later.</p>
+  </div>
+  <div>
+    <h2 class="font-semibold">Why only same-day trips?</h2>
+    <p class="text-slate-600">Because quick adventures matter. Daytrippr focuses on finding flights that let you explore without overnight costs.</p>
+  </div>
+  <div>
+    <h2 class="font-semibold">Can I book directly?</h2>
+    <p class="text-slate-600">For now, we link you to Google Flights to complete bookings. Direct booking is on the roadmap.</p>
+  </div>
 </div>
+
 {% endblock %}

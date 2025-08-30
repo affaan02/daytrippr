@@ -1,31 +1,29 @@
-# Tripski (MVP)
+# Daytrippr (MVP)
 
-Day-trip flight finder MVP (mock data).
+Daytrippr helps you find **same-day flights** — morning arrivals, evening returns — in one clean search.
 
-## Quickstart
+This is an MVP built with **Flask + Tailwind**, using mocked flight data for now. Later, real flight APIs (Amadeus, Skyscanner, Duffel, etc.) can be plugged in without changing the UI.
 
+---
+
+## 🚀 Features
+- Search by origin, destination, date, and budget
+- Filter for morning arrivals / evening returns
+- Mock flight results with airlines, flight numbers, times, and prices
+- Google Flights deeplink for booking
+- Clean Tailwind-styled UI
+
+---
+
+## 🛠️ Tech Stack
+- **Backend:** Python 3.12, Flask, Gunicorn  
+- **Frontend:** Jinja2 templates, TailwindCSS  
+- **Deployment:** Render / Railway / any WSGI-friendly host
+
+---
+
+## 💻 Run Locally
+Clone the repo:
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-
-python app.py
-# open http://127.0.0.1:5000
-```
-
-## Deploy (anywhere that runs Python)
-
-- Use `gunicorn` / `uvicorn` (for Flask, gunicorn works): `gunicorn app:app -b 0.0.0.0:$PORT`
-- Heroku-style `Procfile` included: `web: gunicorn app:app`
-- Expose `PORT` env var as required by your platform.
-
-## Notes
-
-- Data is mocked in `flights.py`. Swap `generate_options_for_day` with a real provider later.
-- Morning arrival / evening return filters are enforced in code using `AppConfig`.
-
-## API
-
-`GET /api/search?origin=SFO&destination=DTW&trip_date=2025-09-20&morning_arrival=true&evening_departure=true&max_price=220`
-
-Deployed from VS Code on Sat Aug 30 15:45:49 PDT 2025
+git clone https://github.com/affaan02/daytrippr.git
+cd daytrippr

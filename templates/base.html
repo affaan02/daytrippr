@@ -2,16 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Tripski · Day-Trip Flights</title>
+  <title>Daytrippr · Day-Trip Flights</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <meta name="description" content="Find day-trip flights with morning arrivals and evening returns.">
 </head>
 <body class="bg-gradient-to-b from-slate-50 to-white text-slate-800">
+  <!-- top bar -->
   <header class="sticky top-0 z-10 backdrop-blur bg-white/75 border-b border-slate-200">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-4">
-      <img src="{{ url_for('logo') }}" alt="Tripski" class="h-9 w-auto">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+      <!-- Brand mark -->
+      <img src="{{ url_for('logo') }}" alt="Daytrippr" class="h-9 w-9 rounded-lg shadow-sm">
+      <span class="text-xl font-semibold tracking-tight">Daytrippr</span>
       <span class="text-xs rounded-full px-2 py-0.5 bg-indigo-50 text-indigo-700 border border-indigo-200">MVP</span>
+
       <nav class="ml-auto flex items-center gap-6 text-sm">
         <a class="text-slate-600 hover:text-slate-900" href="{{ url_for('index') }}">Home</a>
         <a class="text-slate-600 hover:text-slate-900" href="{{ url_for('how_it_works') }}">How it works</a>
