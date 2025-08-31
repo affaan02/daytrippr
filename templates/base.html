@@ -30,19 +30,20 @@
         <a class="text-slate-600 hover:text-slate-900" href="{{ url_for('contact') }}">Contact</a>
       </nav>
 
-      <!-- Mobile hamburger -->
-      <button id="navToggle"
-              class="md:hidden inline-flex items-center justify-center rounded-lg p-2 text-slate-700 hover:bg-slate-100"
-              aria-label="Open navigation">
+      <!-- Mobile hamburger (CSS-only) -->
+      <label for="navcheck" class="md:hidden inline-flex items-center justify-center rounded-lg p-2 text-slate-700 hover:bg-slate-100"
+             aria-label="Open navigation">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
              viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
-      </button>
+      </label>
+      <!-- hidden checkbox drives the menu; no JS required -->
+      <input id="navcheck" type="checkbox" class="peer hidden">
     </div>
 
-    <!-- Mobile menu -->
-    <div id="mobileMenu" class="md:hidden hidden border-t border-slate-200">
+    <!-- Mobile menu (opens when checkbox checked) -->
+    <div class="md:hidden hidden peer-checked:block border-t border-slate-200">
       <nav class="max-w-6xl mx-auto px-4 py-2 grid gap-2 text-sm">
         <a class="py-2 text-slate-700 hover:text-slate-900" href="{{ url_for('index') }}">Home</a>
         <a class="py-2 text-slate-700 hover:text-slate-900" href="{{ url_for('how_it_works') }}">How it works</a>
@@ -61,12 +62,5 @@
   <footer class="max-w-6xl mx-auto px-4 pb-10 text-xs text-slate-500">
     Built with ❤️ for fast day trips. Data is mocked for now — booking links open Google Flights.
   </footer>
-
-  <script>
-    // tiny mobile menu toggle
-    const btn = document.getElementById('navToggle');
-    const menu = document.getElementById('mobileMenu');
-    if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
-  </script>
 </body>
 </html>
