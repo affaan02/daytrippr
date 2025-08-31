@@ -1,53 +1,50 @@
-import os
-from datetime import datetime, timedelta, date
-from flask import Flask, render_template, request, jsonify, send_from_directory
-from flights import search_daytrips, airports_sane, normalize_iata
-from config import AppConfig
+from datetime import date
+from flask import Flask, jsonify, render_template, request, send_from_directory, url_for, redirect
+from flights import search_daytrips  # uses your existing mock/search logic
 
-app = Flask(__name__, static_folder="static", template_folder="templates")
-app.config.from_object(AppConfig)
+app = Flask(__name__)
 
-# Make BRAND_* available in all templates
+# ---------- helpers ----------
+def today_iso() -> str:
+    return date.today().isoformat()
+
 @app.context_processor
-def inject_brand():
-    return dict(
-        BRAND_NAME=AppConfig.BRAND_NAME,
-        BRAND_TAGLINE=AppConfig.BRAND_TAGLINE,
-        BRAND_EMAIL=AppConfig.BRAND_EMAIL,
-    )
+def inject_defaults():
+    # default_date is used by the index form (mobile + desktop)
+    return {"default_date": today_iso()}
 
+# ---------- pages ----------
 @app.get("/")
 def index():
-    today = date.today()
-    default_date = today + timedelta(days=7)
-    return render_template(
-        "index.html",
-        default_date=default_date.strftime("%Y-%m-%d"),
-        sample_origins=["SFO", "SJC", "OAK", "DTW", "LAX", "ORD", "ATL", "PHX", "MCO"],
-        sample_dests=["DTW", "SFO", "SEA", "LAX", "LAS", "PHX", "DEN", "BOS", "JFK"],
-    )
+    return render_template("index.html")
 
 @app.get("/search")
 def search_page():
-    params = _read_params()
-    results = search_daytrips(**params)
-    return render_template("results.html", results=results, params=params, count=len(results))
+    """HTML results page."""
+    params = {
+        "origin": (request.args.get("origin") or "").upper(),
+        "destination": (request.args.get("destination") or "").upper(),
+        "trip_date": request.args.get("trip_date") or today_iso(),
+        "morning_arrival": request.args.get("morning_arrival") == "true",
+        "evening_departure": request.args.get("evening_departure") == "true",
+        "max_price": request.args.get("max_price"),
+    }
+    flights = search_daytrips(**params)
+    return render_template("results.html", flights=flights, params=params)
 
 @app.get("/api/search")
 def api_search():
-    params = _read_params()
-    results = search_daytrips(**params)
-    return jsonify({"count": len(results), "results": results, "params": params})
-
-# Keep the same URL, just swap the asset inside static/
-@app.get("/logo.svg")
-def logo():
-    return send_from_directory("static", "logo-daytrippr.svg", mimetype="image/svg+xml")
-
-# marketing pages
-@app.get("/about")
-def about():
-    return render_template("about.html")
+    """JSON API for programmatic access (mobile client, tests, etc.)."""
+    params = {
+        "origin": (request.args.get("origin") or "").upper(),
+        "destination": (request.args.get("destination") or "").upper(),
+        "trip_date": request.args.get("trip_date") or today_iso(),
+        "morning_arrival": request.args.get("morning_arrival", "true").lower() == "true",
+        "evening_departure": request.args.get("evening_departure", "true").lower() == "true",
+        "max_price": request.args.get("max_price"),
+    }
+    flights = search_daytrips(**params)
+    return jsonify({"ok": True, "params": params, "flights": flights})
 
 @app.get("/how-it-works")
 def how_it_works():
@@ -61,37 +58,37 @@ def pricing():
 def faq():
     return render_template("faq.html")
 
+@app.get("/about")
+def about():
+    return render_template("about.html")
+
 @app.get("/contact")
 def contact():
     return render_template("contact.html")
 
+# ---------- assets / PWA (mobile-friendly install) ----------
+@app.get("/manifest.webmanifest")
+def webmanifest():
+    # serve the manifest from /static so browsers can install to home screen
+    return send_from_directory("static", "manifest.webmanifest", mimetype="application/manifest+json")
+
+@app.get("/sw.js")
+def service_worker():
+    # basic service worker (if you add static/sw.js)
+    return send_from_directory("static", "sw.js", mimetype="application/javascript")
+
+# Optional: serve logo by path if any template calls url_for('logo')
+@app.get("/logo.svg")
+def logo():
+    return send_from_directory("static", "logo.svg", mimetype="image/svg+xml")
+
+
+# ---------- error pages ----------
 @app.errorhandler(404)
-def not_found(e):
+def not_found(_e):
     return render_template("404.html"), 404
 
-def _read_params():
-    origin = normalize_iata(request.args.get("origin", "SFO"))
-    destination = normalize_iata(request.args.get("destination", "DTW"))
-    trip_date = request.args.get("trip_date") or (date.today() + timedelta(days=7)).strftime("%Y-%m-%d")
-    try:
-        datetime.strptime(trip_date, "%Y-%m-%d")
-    except ValueError:
-        trip_date = (date.today() + timedelta(days=7)).strftime("%Y-%m-%d")
-
-    morning_arrival = request.args.get("morning_arrival", "true").lower() != "false"
-    evening_departure = request.args.get("evening_departure", "true").lower() != "false"
-    max_price = request.args.get("max_price", "").strip()
-    max_price = int(max_price) if max_price.isdigit() else None
-
-    return dict(
-        origin=origin,
-        destination=destination,
-        trip_date=trip_date,
-        morning_arrival=morning_arrival,
-        evening_departure=evening_departure,
-        max_price=max_price,
-    )
 
 if __name__ == "__main__":
-    port = int(os.getenv("PORT", "5050"))
-    app.run(host="0.0.0.0", port=port, debug=True)
+    # Dev server (Render/production uses gunicorn via Procfile)
+    app.run(host="0.0.0.0", port=5050, debug=True)
