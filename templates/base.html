@@ -9,15 +9,19 @@
   <meta name="description" content="Find day-trip flights with morning arrivals and evening returns.">
 </head>
 <body class="bg-gradient-to-b from-slate-50 to-white text-slate-800">
-  <!-- top bar -->
-  <header class="sticky top-0 z-10 backdrop-blur bg-white/75 border-b border-slate-200">
-    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
-      <!-- Brand mark -->
-      <img src="{{ url_for('static', filename='logo.svg') }}" alt="Daytrippr" class="h-9 w-9 rounded-lg shadow-sm">
-      <span class="text-xl font-semibold tracking-tight">Daytrippr</span>
-      <span class="text-xs rounded-full px-2 py-0.5 bg-indigo-50 text-indigo-700 border border-indigo-200">MVP</span>
 
-      <nav class="ml-auto flex items-center gap-6 text-sm">
+  <!-- Header -->
+  <header class="sticky top-0 z-20 bg-white/80 backdrop-blur border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <!-- Brand -->
+      <a href="{{ url_for('index') }}" class="flex items-center gap-2">
+        <img src="{{ url_for('static', filename='logo.svg') }}" alt="Daytrippr" class="h-8 w-8 rounded-lg shadow-sm">
+        <span class="text-lg md:text-xl font-semibold tracking-tight">Daytrippr</span>
+        <span class="hidden sm:inline text-[10px] md:text-xs rounded-full px-2 py-0.5 bg-indigo-50 text-indigo-700 border border-indigo-200">MVP</span>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center gap-6 text-sm">
         <a class="text-slate-600 hover:text-slate-900" href="{{ url_for('index') }}">Home</a>
         <a class="text-slate-600 hover:text-slate-900" href="{{ url_for('how_it_works') }}">How it works</a>
         <a class="text-slate-600 hover:text-slate-900" href="{{ url_for('pricing') }}">Pricing</a>
@@ -25,15 +29,44 @@
         <a class="text-slate-600 hover:text-slate-900" href="{{ url_for('about') }}">About</a>
         <a class="text-slate-600 hover:text-slate-900" href="{{ url_for('contact') }}">Contact</a>
       </nav>
+
+      <!-- Mobile hamburger -->
+      <button id="navToggle"
+              class="md:hidden inline-flex items-center justify-center rounded-lg p-2 text-slate-700 hover:bg-slate-100"
+              aria-label="Open navigation">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="md:hidden hidden border-t border-slate-200">
+      <nav class="max-w-6xl mx-auto px-4 py-2 grid gap-2 text-sm">
+        <a class="py-2 text-slate-700 hover:text-slate-900" href="{{ url_for('index') }}">Home</a>
+        <a class="py-2 text-slate-700 hover:text-slate-900" href="{{ url_for('how_it_works') }}">How it works</a>
+        <a class="py-2 text-slate-700 hover:text-slate-900" href="{{ url_for('pricing') }}">Pricing</a>
+        <a class="py-2 text-slate-700 hover:text-slate-900" href="{{ url_for('faq') }}">FAQ</a>
+        <a class="py-2 text-slate-700 hover:text-slate-900" href="{{ url_for('about') }}">About</a>
+        <a class="py-2 text-slate-700 hover:text-slate-900" href="{{ url_for('contact') }}">Contact</a>
+      </nav>
     </div>
   </header>
 
-  <main class="max-w-6xl mx-auto px-4 py-10">
+  <main class="max-w-6xl mx-auto px-4 py-8 md:py-10">
     {% block content %}{% endblock %}
   </main>
 
   <footer class="max-w-6xl mx-auto px-4 pb-10 text-xs text-slate-500">
     Built with ❤️ for fast day trips. Data is mocked for now — booking links open Google Flights.
   </footer>
+
+  <script>
+    // tiny mobile menu toggle
+    const btn = document.getElementById('navToggle');
+    const menu = document.getElementById('mobileMenu');
+    if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+  </script>
 </body>
 </html>
