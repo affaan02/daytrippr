@@ -9,16 +9,25 @@
   <meta name="description" content="Find day-trip flights with morning arrivals and evening returns.">
 </head>
 <body class="bg-gradient-to-b from-slate-50 to-white text-slate-800">
-
-  <!-- Header -->
-  <header class="sticky top-0 z-20 bg-white/80 backdrop-blur border-b border-slate-200">
+  <!-- top bar -->
+  <header class="sticky top-0 z-20 backdrop-blur bg-white/75 border-b border-slate-200">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <!-- Brand -->
-      <a href="{{ url_for('index') }}" class="flex items-center gap-2">
-        <img src="{{ url_for('static', filename='logo.svg') }}" alt="Daytrippr" class="h-8 w-8 rounded-lg shadow-sm">
-        <span class="text-lg md:text-xl font-semibold tracking-tight">Daytrippr</span>
-        <span class="hidden sm:inline text-[10px] md:text-xs rounded-full px-2 py-0.5 bg-indigo-50 text-indigo-700 border border-indigo-200">MVP</span>
-      </a>
+      <div class="flex items-center gap-2">
+        <img src="{{ url_for('logo') }}" alt="Daytrippr" class="h-9 w-9 rounded-lg shadow-sm">
+        <span class="text-xl font-semibold tracking-tight">Daytrippr</span>
+        <span class="text-xs rounded-full px-2 py-0.5 bg-indigo-50 text-indigo-700 border border-indigo-200">MVP</span>
+      </div>
+
+      <!-- Hamburger (mobile only) -->
+      <label for="navcheck" class="md:hidden cursor-pointer p-2 rounded hover:bg-slate-100">
+        <svg class="h-6 w-6 text-slate-700" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="6" x2="20" y2="6"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="18" x2="20" y2="18"/>
+        </svg>
+      </label>
 
       <!-- Desktop nav -->
       <nav class="hidden md:flex items-center gap-6 text-sm">
@@ -29,22 +38,19 @@
         <a class="text-slate-600 hover:text-slate-900" href="{{ url_for('about') }}">About</a>
         <a class="text-slate-600 hover:text-slate-900" href="{{ url_for('contact') }}">Contact</a>
       </nav>
-
-      <!-- Mobile hamburger (CSS-only) -->
-      <label for="navcheck" class="md:hidden inline-flex items-center justify-center rounded-lg p-2 text-slate-700 hover:bg-slate-100"
-             aria-label="Open navigation">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
-      </label>
-      <!-- hidden checkbox drives the menu; no JS required -->
-      <input id="navcheck" type="checkbox" class="peer hidden">
     </div>
 
-    <!-- Mobile menu (opens when checkbox checked) -->
-    <div class="md:hidden hidden peer-checked:block border-t border-slate-200">
-      <nav class="max-w-6xl mx-auto px-4 py-2 grid gap-2 text-sm">
+    <!-- Mobile nav logic -->
+    <input id="navcheck" type="checkbox" class="peer sr-only" aria-hidden="true">
+
+    <!-- Tap-outside backdrop -->
+    <label for="navcheck"
+           class="md:hidden hidden peer-checked:block fixed inset-0 bg-black/20"
+           aria-hidden="true"></label>
+
+    <!-- Mobile menu -->
+    <div class="md:hidden hidden peer-checked:block border-t border-slate-200 bg-white relative z-30">
+      <nav class="max-w-6xl mx-auto px-4 py-4 grid gap-2 text-sm">
         <a class="py-2 text-slate-700 hover:text-slate-900" href="{{ url_for('index') }}">Home</a>
         <a class="py-2 text-slate-700 hover:text-slate-900" href="{{ url_for('how_it_works') }}">How it works</a>
         <a class="py-2 text-slate-700 hover:text-slate-900" href="{{ url_for('pricing') }}">Pricing</a>
@@ -55,7 +61,7 @@
     </div>
   </header>
 
-  <main class="max-w-6xl mx-auto px-4 py-8 md:py-10">
+  <main class="max-w-6xl mx-auto px-4 py-10">
     {% block content %}{% endblock %}
   </main>
 
